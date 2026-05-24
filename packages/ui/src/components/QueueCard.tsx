@@ -41,20 +41,11 @@ export function QueueCard({ queue }: { queue: AppQueue }) {
               </span>
             )}
           </div>
-          <div className="mt-0.5 flex items-center gap-2 text-[11px] text-[var(--color-fg-subtle)]">
-            <span>
-              Concurrency ·{' '}
-              <span className="font-medium tabular-nums text-[var(--color-fg-muted)]">
-                {queue.globalConcurrency ?? '∞'}
-              </span>
-            </span>
-            {queue.description && (
-              <>
-                <span className="text-[var(--color-fg-dim)]">·</span>
-                <span className="truncate">{queue.description}</span>
-              </>
-            )}
-          </div>
+          {queue.description && (
+            <p className="mt-0.5 truncate text-xs text-[var(--color-fg-subtle)]">
+              {queue.description}
+            </p>
+          )}
         </div>
         <Link
           to={`/queue/${encodeURIComponent(queue.name)}`}
