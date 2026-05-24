@@ -11,8 +11,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const base =
   'inline-flex items-center justify-center gap-1.5 rounded-md font-medium transition-colors ' +
-  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 ' +
-  'disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap';
+  'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 ' +
+  'disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed whitespace-nowrap';
 
 const variants: Record<Variant, string> = {
   primary: 'bg-blue-500 text-white hover:bg-blue-400 active:bg-blue-600',
