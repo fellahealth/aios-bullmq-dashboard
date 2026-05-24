@@ -110,11 +110,21 @@ export abstract class BaseAdapter {
   public abstract setGlobalConcurrency(concurrency: number): Promise<void>;
 
   /**
-   * Worker-level concurrency, if the adapter can read it. Defaults to null
-   * (unknown). Bull v4's adapter overrides this by reading `queue.handlers`
-   * since the worker and the queue share the same in-process instance.
+   * Worker-level concurrency, if known. The adapter doesn't try to compute
+   * this itself — Bull v4 doesn't store the concurrency anywhere on the
+   * Queue after `process(name, concurrency, handler)` returns, so reading
+   * it would require a framework-aware scanner. Instead, framework
+   * integrations (e.g. our @nestjs/bull discovery in the NestJS module)
+   * call `setWorkerConcurrency()` once the value is known and the adapter
+   * just returns it.
    */
+  protected _workerConcurrency: number | null = null;
+
+  public setWorkerConcurrency(value: number | null): void {
+    this._workerConcurrency = value;
+  }
+
   public async getWorkerConcurrency(): Promise<number | null> {
-    return null;
+    return this._workerConcurrency;
   }
 }

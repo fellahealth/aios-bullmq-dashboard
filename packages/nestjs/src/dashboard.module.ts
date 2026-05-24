@@ -1,4 +1,5 @@
 import { DynamicModule, Module} from "@nestjs/common";
+import { DiscoveryModule } from "@nestjs/core";
 import { AIOSBullMQDashboardFeatureModule } from "./dashboard.feature-module";
 import { AIOSBullMQDashboardRootModule } from "./dashboard.root-module";
 import { AIOS_BULLMQ_DASHBOARD_QUEUES } from "./dashboard.constants";
@@ -10,6 +11,7 @@ export class AIOSBullMQDashboardModule {
   static forFeature(...queues: AIOSBullMQDashboardQueueOptions[]): DynamicModule {
     return {
       module: AIOSBullMQDashboardFeatureModule,
+      imports: [ DiscoveryModule ],
       providers: [
         {
           provide: AIOS_BULLMQ_DASHBOARD_QUEUES,
