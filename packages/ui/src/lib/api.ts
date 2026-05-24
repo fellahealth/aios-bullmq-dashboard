@@ -109,7 +109,10 @@ export const api = {
   setConcurrency(queueName: string, concurrency: number) {
     return http.put(`/queues/${encodeURIComponent(queueName)}/concurrency`, { concurrency });
   },
-  addJob(queueName: string, body: { name: string; data: any; opts?: any }) {
+  addJob(
+    queueName: string,
+    body: { name: string; data: any; options?: Record<string, any> }
+  ) {
     return http.post(`/queues/${encodeURIComponent(queueName)}/add`, body);
   },
 

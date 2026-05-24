@@ -19,6 +19,7 @@ import { api } from '../lib/api';
 import { StatusTabs } from '../components/StatusTabs';
 import { JobTable } from '../components/JobTable';
 import { Pagination } from '../components/Pagination';
+import { AddJobModal } from '../components/AddJobModal';
 import { Button } from '../components/ui/Button';
 import { Card, CardBody } from '../components/ui/Card';
 import { Skeleton } from '../components/ui/Skeleton';
@@ -39,6 +40,7 @@ export default function QueuePage() {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [searchPage, setSearchPage] = useState(1);
+  const [addJobOpen, setAddJobOpen] = useState(false);
 
   // Debounce the search input by 300ms so we don't fire a server scan on
   // every keystroke. The server endpoint walks up to 1000 jobs per call.
@@ -227,7 +229,12 @@ export default function QueuePage() {
                 <Trash2 className="h-3.5 w-3.5" /> Clean all
               </Button>
             )}
-            <Button variant="primary" size="sm" disabled title="Add job coming soon">
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => setAddJobOpen(true)}
+              title="Enqueue a new job"
+            >
               <Plus className="h-3.5 w-3.5" /> Add job
             </Button>
           </div>
@@ -325,6 +332,13 @@ export default function QueuePage() {
           onChange={isSearching ? setSearchPage : setPage}
         />
       </div>
+
+      <AddJobModal
+        open={addJobOpen}
+        onOpenChange={setAddJobOpen}
+        queueName={queue.name}
+        queueDisplayName={queue.displayName}
+      />
     </div>
   );
 }
