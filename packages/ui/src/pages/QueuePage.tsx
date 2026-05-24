@@ -196,12 +196,17 @@ export default function QueuePage() {
             </h1>
             {queue.isPaused && <Badge tone="neutral">Paused</Badge>}
             <Badge tone="info">{queue.type}</Badge>
-            <Badge tone="neutral">
-              Concurrency ·{' '}
-              <span className="font-semibold tabular-nums">
-                {queue.globalConcurrency ?? '∞'}
-              </span>
-            </Badge>
+            {queue.globalConcurrency != null && (
+              <Badge
+                tone="neutral"
+                title="Queue-level global concurrency. Worker-level concurrency set in code (e.g. @Process({ concurrency })) is not reported by the queue and not shown here."
+              >
+                Concurrency ·{' '}
+                <span className="font-semibold tabular-nums">
+                  {queue.globalConcurrency}
+                </span>
+              </Badge>
+            )}
           </div>
           {queue.description && (
             <p className="mt-1 text-sm text-[var(--color-fg-subtle)]">{queue.description}</p>
