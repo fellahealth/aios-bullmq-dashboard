@@ -4,13 +4,11 @@
   "private": true,
   "description": "A modern, professional dashboard for BullMQ — built as a drop-in alternative to bull-board with a refreshed UI.",
   "workspaces": [
-    "packages/*",
-    "examples/*"
+    "packages/*"
   ],
   "scripts": {
     "build": "yarn workspaces run build",
     "dev:ui": "yarn workspace @aios/bullmq-dashboard-ui dev",
-    "dev:example": "yarn workspace @aios/bullmq-dashboard-example-express dev",
     "clean": "yarn workspaces run clean",
     "typecheck": "yarn workspaces run typecheck",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\""

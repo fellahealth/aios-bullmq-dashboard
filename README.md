@@ -120,43 +120,18 @@ ignored and the UI displays a banner explaining the server-side override.
 
 ## Local development
 
-The repo is a yarn workspace with a runnable example. To play with the dashboard against a
-local Redis:
+The repo is a yarn workspace. To work on the packages:
 
 ```bash
-# Install Redis (or run via Docker):
-docker run -p 6379:6379 redis:7
-
-# Install workspace deps:
 yarn install
-
-# Build all packages once:
-yarn build
-
-# In one terminal, run the example Express server:
-yarn workspace @aios/bullmq-dashboard-example-express dev
-
-# In another terminal, seed it with synthetic jobs + workers:
-yarn workspace @aios/bullmq-dashboard-example-express seed
-
-# (Optional) Run the UI in dev mode with HMR, proxying API calls to :3000:
-yarn dev:ui
+yarn build           # build all packages once
+yarn workspace @aios/bullmq-dashboard-ui dev   # UI in dev mode with HMR
+yarn typecheck       # run tsc across the workspace
 ```
 
-Open <http://localhost:3000/dashboard> (or <http://localhost:9000> for the Vite dev server).
-
-### Pointing the example at your own queues
-
-Set `QUEUES` to a comma-separated list of names your app uses:
-
-```bash
-REDIS_URL=redis://127.0.0.1:6379 \
-QUEUES=patient-onboarding,notification-emails,reports \
-yarn workspace @aios/bullmq-dashboard-example-express dev
-```
-
-The dashboard is read/write — pause, retry, clean, obliterate all act on the real Redis.
-Point it carefully.
+The UI dev server runs on `http://localhost:9000` and proxies `/api` to whichever
+server you have running on `:3000`. Wire it up against your own Express/NestJS app for
+end-to-end testing.
 
 ### Repository layout
 
@@ -166,9 +141,6 @@ packages/
 ├── express/      Express server adapter
 ├── nestjs/       NestJS module
 └── ui/           Modern React UI (Vite + React 19 + Tailwind v4)
-
-examples/
-└── with-express/ Runnable example + seed script
 ```
 
 ---
