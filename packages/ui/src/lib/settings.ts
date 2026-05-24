@@ -20,7 +20,7 @@ export interface Settings {
 
 export const DEFAULT_SETTINGS: Settings = {
   pollingInterval: 5000,
-  jobsPerPage: 20,
+  jobsPerPage: 10,
 };
 
 export const SETTINGS_STORAGE_KEY = 'aios-bullmq-settings';
