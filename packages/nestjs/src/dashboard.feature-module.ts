@@ -52,8 +52,9 @@ export class AIOSBullMQDashboardFeatureModule
       const instance = wrapper.instance;
       if (!instance || typeof instance !== 'object') continue;
 
+      const metatype = wrapper.metatype ?? instance.constructor;
       const meta =
-        Reflect.getMetadata(BULL_MODULE_QUEUE, wrapper.metatype ?? instance.constructor) ??
+        Reflect.getMetadata(BULL_MODULE_QUEUE, metatype) ??
         Reflect.getMetadata(BULL_MODULE_QUEUE, instance.constructor);
       if (!meta) continue;
 
