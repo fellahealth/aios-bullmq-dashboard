@@ -2,6 +2,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pause, Play, Trash2, RotateCcw, ArrowUp, Plus, ChevronsUp } from 'lucide-react';
 import { useQueue } from '../hooks/useQueues';
+import { useSettings } from '../hooks/useSettings';
 import { api } from '../lib/api';
 import { StatusTabs } from '../components/StatusTabs';
 import { JobTable } from '../components/JobTable';
@@ -13,19 +14,18 @@ import { Badge } from '../components/ui/Badge';
 import type { JobCleanStatus, Status } from '../lib/types';
 import { formatNumber } from '../lib/utils';
 
-const JOBS_PER_PAGE = 20;
-
 export default function QueuePage() {
   const { queueName } = useParams<{ queueName: string }>();
   const [params, setParams] = useSearchParams();
   const status = (params.get('status') as Status) ?? 'active';
   const page = Number(params.get('page') ?? '1');
+  const { jobsPerPage } = useSettings();
 
   const qc = useQueryClient();
   const { queue, isLoading } = useQueue(queueName, {
     status,
     page,
-    jobsPerPage: JOBS_PER_PAGE,
+    jobsPerPage,
   });
 
   const setStatus = (s: Status) => {

@@ -1,9 +1,14 @@
-import { Monitor, Moon, Sun, Timer } from 'lucide-react';
+import { ListOrdered, Monitor, Moon, Sun, Timer } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import { useSettings } from '../hooks/useSettings';
 import { uiConfig } from '../lib/uiConfig';
 import type { Theme } from '../lib/theme';
-import { POLLING_OPTIONS, type PollingInterval } from '../lib/settings';
+import {
+  JOBS_PER_PAGE_OPTIONS,
+  POLLING_OPTIONS,
+  type JobsPerPage,
+  type PollingInterval,
+} from '../lib/settings';
 import { Card, CardBody, CardHeader } from '../components/ui/Card';
 import { cn } from '../lib/utils';
 
@@ -19,7 +24,54 @@ export default function SettingsPage() {
 
       <ThemeSection />
       <PollingSection />
+      <JobsPerPageSection />
     </div>
+  );
+}
+
+function JobsPerPageSection() {
+  const { jobsPerPage, set } = useSettings();
+  return (
+    <Card>
+      <CardHeader>
+        <div>
+          <h2 className="flex items-center gap-2 text-sm font-semibold text-[var(--color-fg)]">
+            <ListOrdered className="h-3.5 w-3.5 text-[var(--color-fg-muted)]" />
+            Jobs per page
+          </h2>
+          <p className="mt-0.5 text-xs text-[var(--color-fg-subtle)]">
+            How many jobs to show on each page of a queue's job table.
+          </p>
+        </div>
+      </CardHeader>
+      <CardBody>
+        <div
+          role="radiogroup"
+          aria-label="Jobs per page"
+          className="grid grid-cols-2 gap-2 sm:grid-cols-4"
+        >
+          {JOBS_PER_PAGE_OPTIONS.map((value) => {
+            const active = jobsPerPage === value;
+            return (
+              <button
+                key={value}
+                role="radio"
+                aria-checked={active}
+                onClick={() => set('jobsPerPage', value as JobsPerPage)}
+                className={cn(
+                  'rounded-md border px-3 py-2 text-xs font-medium transition-colors',
+                  active
+                    ? 'border-blue-500/60 bg-blue-500/10 text-[var(--color-fg)] ring-1 ring-inset ring-blue-500/30'
+                    : 'border-[var(--color-border-subtle)] bg-[var(--color-surface-1)] text-[var(--color-fg-muted)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-fg)]'
+                )}
+              >
+                {value}
+              </button>
+            );
+          })}
+        </div>
+      </CardBody>
+    </Card>
   );
 }
 

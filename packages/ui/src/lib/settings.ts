@@ -9,12 +9,18 @@ export const POLLING_OPTIONS: Array<{ value: PollingInterval; label: string }> =
   { value: 30000, label: '30 seconds' },
 ];
 
+export type JobsPerPage = 10 | 20 | 50 | 100;
+
+export const JOBS_PER_PAGE_OPTIONS: JobsPerPage[] = [10, 20, 50, 100];
+
 export interface Settings {
   pollingInterval: PollingInterval;
+  jobsPerPage: JobsPerPage;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
   pollingInterval: 5000,
+  jobsPerPage: 20,
 };
 
 export const SETTINGS_STORAGE_KEY = 'aios-bullmq-settings';
