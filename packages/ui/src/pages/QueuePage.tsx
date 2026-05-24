@@ -199,11 +199,22 @@ export default function QueuePage() {
             {queue.globalConcurrency != null && (
               <Badge
                 tone="neutral"
-                title="Queue-level global concurrency. Worker-level concurrency set in code (e.g. @Process({ concurrency })) is not reported by the queue and not shown here."
+                title="Queue-level global concurrency (set via setGlobalConcurrency)."
               >
                 Concurrency ·{' '}
                 <span className="font-semibold tabular-nums">
                   {queue.globalConcurrency}
+                </span>
+              </Badge>
+            )}
+            {queue.workerConcurrency != null && (
+              <Badge
+                tone="neutral"
+                title="Worker concurrency in this process, summed across all registered handlers. If you scale horizontally across N nodes, the system-wide cap is N × this value."
+              >
+                Worker ·{' '}
+                <span className="font-semibold tabular-nums">
+                  {queue.workerConcurrency}
                 </span>
               </Badge>
             )}

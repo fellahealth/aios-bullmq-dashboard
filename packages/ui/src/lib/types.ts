@@ -55,6 +55,7 @@ export interface AppQueue {
   isPaused: boolean;
   type: QueueType;
   globalConcurrency: number | null;
+  workerConcurrency: number | null;
 }
 
 export interface GetQueuesResponse {

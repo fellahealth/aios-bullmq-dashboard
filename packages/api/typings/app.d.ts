@@ -161,6 +161,16 @@ export interface AppQueue {
   isPaused: boolean;
   type: QueueType;
   globalConcurrency: number | null;
+  /**
+   * Total concurrency across all handlers registered on this Queue instance
+   * within the dashboard's process. Only populated for legacy Bull, where
+   * handlers live on the Queue itself. For BullMQ this is always null —
+   * workers are separate processes that don't expose their concurrency to
+   * the Queue. For Bull running across multiple worker nodes, this is
+   * still only the *local* value; multiply by the number of nodes to get
+   * the system-wide cap.
+   */
+  workerConcurrency: number | null;
 }
 
 export type HTTPMethod = 'get' | 'post' | 'put' | 'patch';

@@ -108,4 +108,13 @@ export abstract class BaseAdapter {
   public abstract getGlobalConcurrency(): Promise<number | null>;
 
   public abstract setGlobalConcurrency(concurrency: number): Promise<void>;
+
+  /**
+   * Worker-level concurrency, if the adapter can read it. Defaults to null
+   * (unknown). Bull v4's adapter overrides this by reading `queue.handlers`
+   * since the worker and the queue share the same in-process instance.
+   */
+  public async getWorkerConcurrency(): Promise<number | null> {
+    return null;
+  }
 }

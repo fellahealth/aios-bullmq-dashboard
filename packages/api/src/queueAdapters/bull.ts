@@ -121,6 +121,35 @@ export class BullAdapter extends BaseAdapter {
     // Bull does not support global concurrency
   }
 
+  /**
+   * Reads the concurrency from any processors registered on this Queue
+   * instance in the current process. Bull v4's `Queue.prototype.process`
+   * stores handlers as `queue.handlers[name] = { fn, concurrency }`. We
+   * sum the concurrencies across all registered handlers (one queue may
+   * have multiple named processors, each with its own concurrency).
+   *
+   * Returns null if no handlers are registered in this process — for
+   * example when the dashboard runs in a process separate from the
+   * workers. In that case worker-level concurrency is genuinely
+   * unknowable from the queue side.
+   */
+  public async getWorkerConcurrency(): Promise<number | null> {
+    const handlers = (this.queue as unknown as { handlers?: Record<string, { concurrency?: number }> })
+      .handlers;
+    if (!handlers || typeof handlers !== 'object') return null;
+
+    let total = 0;
+    let found = false;
+    for (const key of Object.keys(handlers)) {
+      const entry = handlers[key];
+      if (entry && typeof entry.concurrency === 'number' && entry.concurrency > 0) {
+        total += entry.concurrency;
+        found = true;
+      }
+    }
+    return found ? total : null;
+  }
+
   private alignJobData(job: Job) {
     if (typeof job?.attemptsMade === 'number') {
       job.attemptsMade++;
