@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ChevronRight, AlertCircle } from 'lucide-react';
 import type { AppJob, Status } from '../lib/types';
-import { cn, formatRelative, formatDurationMs } from '../lib/utils';
+import { cn, formatRelative, formatDurationMs, formatAbsolute } from '../lib/utils';
 
 interface Props {
   queueName: string;
@@ -18,6 +18,8 @@ export function JobTable({ queueName, jobs, status }: Props) {
     );
   }
 
+  const isDelayed = status === 'delayed';
+
   return (
     <div className="overflow-hidden rounded-xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-1)]/60">
       <table className="w-full table-fixed text-sm">
@@ -26,7 +28,7 @@ export function JobTable({ queueName, jobs, status }: Props) {
             <Th className="w-[26ch]">Job ID</Th>
             <Th>Name</Th>
             <Th className="w-[14ch]">Created</Th>
-            <Th className="w-[14ch]">Duration</Th>
+            <Th className="w-[14ch]">{isDelayed ? 'Runs in' : 'Duration'}</Th>
             <Th className="w-[10ch] text-center">Attempts</Th>
             <Th className="w-12" />
           </tr>
@@ -57,6 +59,12 @@ function JobRow({
         ? Date.now() - job.processedOn
         : null;
 
+  // For delayed jobs, the third column shows when the job will run rather
+  // than how long it took. Bull/BullMQ store `delay` as ms offset from the
+  // job's creation timestamp.
+  const isDelayed = status === 'delayed';
+  const runAt = isDelayed && job.delay != null ? job.timestamp + job.delay : null;
+
   const progress = typeof job.progress === 'number' ? job.progress : null;
   const isFailed = status === 'failed' || job.isFailed;
 
@@ -83,11 +91,17 @@ function JobRow({
           <p className="mt-0.5 truncate text-[11px] text-red-300/80">{job.failedReason}</p>
         )}
       </Td>
-      <Td className="whitespace-nowrap text-xs text-[var(--color-fg-muted)]">
+      <Td
+        className="whitespace-nowrap text-xs text-[var(--color-fg-muted)]"
+        title={formatAbsolute(job.timestamp)}
+      >
         {formatRelative(job.timestamp)}
       </Td>
-      <Td className="whitespace-nowrap text-xs text-[var(--color-fg-muted)]">
-        {formatDurationMs(duration)}
+      <Td
+        className="whitespace-nowrap text-xs text-[var(--color-fg-muted)]"
+        title={runAt ? formatAbsolute(runAt) : undefined}
+      >
+        {runAt ? formatRelative(runAt) : formatDurationMs(duration)}
       </Td>
       <Td className="text-center">
         <span
@@ -134,6 +148,18 @@ function Th({ className, children }: { className?: string; children?: React.Reac
   );
 }
 
-function Td({ className, children }: { className?: string; children?: React.ReactNode }) {
-  return <td className={cn('px-3 py-1.5 align-middle', className)}>{children}</td>;
+function Td({
+  className,
+  children,
+  title,
+}: {
+  className?: string;
+  children?: React.ReactNode;
+  title?: string;
+}) {
+  return (
+    <td className={cn('px-3 py-1.5 align-middle', className)} title={title}>
+      {children}
+    </td>
+  );
 }

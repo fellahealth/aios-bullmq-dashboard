@@ -6,7 +6,6 @@ import {
   Play,
   Trash2,
   RotateCcw,
-  ArrowUp,
   Plus,
   ChevronsUp,
   Search,
@@ -191,12 +190,18 @@ export default function QueuePage() {
     <div className="space-y-6">
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-2xl font-semibold tracking-tight text-[var(--color-fg)]">
               {queue.displayName ?? queue.name}
             </h1>
             {queue.isPaused && <Badge tone="neutral">Paused</Badge>}
             <Badge tone="info">{queue.type}</Badge>
+            <Badge tone="neutral">
+              Concurrency ·{' '}
+              <span className="font-semibold tabular-nums">
+                {queue.globalConcurrency ?? '∞'}
+              </span>
+            </Badge>
           </div>
           {queue.description && (
             <p className="mt-1 text-sm text-[var(--color-fg-subtle)]">{queue.description}</p>
@@ -314,14 +319,7 @@ export default function QueuePage() {
         <JobTable queueName={queue.name} jobs={displayJobs} status={status} />
       )}
 
-      <div className="flex items-center justify-between">
-        {queue.globalConcurrency != null && (
-          <div className="flex items-center gap-1.5 text-xs text-[var(--color-fg-subtle)]">
-            <ArrowUp className="h-3 w-3" />
-            Concurrency:{' '}
-            <span className="tabular-nums text-[var(--color-fg-muted)]">{queue.globalConcurrency}</span>
-          </div>
-        )}
+      <div className="flex items-center justify-end">
         <Pagination
           page={isSearching ? searchPage : page}
           pageCount={
