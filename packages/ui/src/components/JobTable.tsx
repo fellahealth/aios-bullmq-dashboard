@@ -20,10 +20,10 @@ export function JobTable({ queueName, jobs, status }: Props) {
 
   return (
     <div className="overflow-hidden rounded-xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-1)]/60">
-      <table className="w-full text-sm">
+      <table className="w-full table-fixed text-sm">
         <thead>
           <tr className="border-b border-[var(--color-border-subtle)] text-[10px] uppercase tracking-wider text-[var(--color-fg-subtle)]">
-            <Th className="w-[14ch]">Job ID</Th>
+            <Th className="w-[26ch]">Job ID</Th>
             <Th>Name</Th>
             <Th className="w-[14ch]">Created</Th>
             <Th className="w-[14ch]">Duration</Th>
@@ -65,7 +65,8 @@ function JobRow({
       <Td>
         <Link
           to={`/queue/${encodeURIComponent(queueName)}/${encodeURIComponent(String(job.id ?? ''))}`}
-          className="font-mono text-xs text-[var(--color-fg-muted)] hover:text-blue-300"
+          title={`#${String(job.id)}`}
+          className="block truncate font-mono text-xs text-[var(--color-fg-muted)] hover:text-blue-300"
         >
           #{String(job.id)}
         </Link>
@@ -129,10 +130,10 @@ function ProgressBar({ value }: { value: number }) {
 
 function Th({ className, children }: { className?: string; children?: React.ReactNode }) {
   return (
-    <th className={cn('px-3 py-2 text-left font-semibold', className)}>{children}</th>
+    <th className={cn('px-3 py-1.5 text-left font-semibold', className)}>{children}</th>
   );
 }
 
 function Td({ className, children }: { className?: string; children?: React.ReactNode }) {
-  return <td className={cn('px-3 py-2.5 align-middle', className)}>{children}</td>;
+  return <td className={cn('px-3 py-1.5 align-middle', className)}>{children}</td>;
 }
