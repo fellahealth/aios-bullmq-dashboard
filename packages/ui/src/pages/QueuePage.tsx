@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pause, Play, Trash2, RotateCcw, ArrowUp, Plus, ChevronsUp } from 'lucide-react';
 import { useQueue } from '../hooks/useQueues';
 import { useSettings } from '../hooks/useSettings';
+import { useConfirm } from '../hooks/useConfirm';
 import { api } from '../lib/api';
 import { StatusTabs } from '../components/StatusTabs';
 import { JobTable } from '../components/JobTable';
@@ -22,6 +23,7 @@ export default function QueuePage() {
   const { jobsPerPage } = useSettings();
 
   const qc = useQueryClient();
+  const confirm = useConfirm();
   const { queue, isLoading } = useQueue(queueName, {
     status,
     page,
@@ -61,6 +63,74 @@ export default function QueuePage() {
     onSuccess: invalidate,
   });
 
+  const handlePause = async () => {
+    if (
+      await confirm({
+        title: `Pause "${queue?.displayName ?? queueName}"?`,
+        description:
+          'New jobs will queue up but won\'t be processed until you resume. In-flight jobs are not affected.',
+        confirmText: 'Pause',
+        icon: <Pause />,
+      })
+    ) {
+      pause.mutate();
+    }
+  };
+
+  const handleResume = async () => {
+    if (
+      await confirm({
+        title: `Resume "${queue?.displayName ?? queueName}"?`,
+        description: 'Queued jobs will start processing again.',
+        confirmText: 'Resume',
+        icon: <Play />,
+      })
+    ) {
+      resume.mutate();
+    }
+  };
+
+  const handlePromoteAll = async () => {
+    if (
+      await confirm({
+        title: `Promote all delayed jobs?`,
+        description:
+          'Every delayed job in this queue moves to waiting and runs as soon as a worker is free.',
+        confirmText: 'Promote all',
+        icon: <ChevronsUp />,
+      })
+    ) {
+      promoteAll.mutate();
+    }
+  };
+
+  const handleRetryAll = async () => {
+    if (
+      await confirm({
+        title: `Retry all ${status} jobs?`,
+        description: 'Each job re-enters the waiting state and will be picked up by a worker.',
+        confirmText: 'Retry all',
+        icon: <RotateCcw />,
+      })
+    ) {
+      retryAll.mutate();
+    }
+  };
+
+  const handleCleanAll = async () => {
+    if (
+      await confirm({
+        title: `Clean all ${status} jobs?`,
+        description: `This permanently removes every ${status} job from "${queue?.displayName ?? queueName}". Cannot be undone.`,
+        confirmText: 'Clean all',
+        variant: 'danger',
+        icon: <Trash2 />,
+      })
+    ) {
+      cleanAll.mutate();
+    }
+  };
+
   if (isLoading || !queue) {
     return <QueuePageSkeleton />;
   }
@@ -88,32 +158,26 @@ export default function QueuePage() {
         {!queue.readOnlyMode && (
           <div className="flex flex-wrap items-center gap-2">
             {queue.isPaused ? (
-              <Button onClick={() => resume.mutate()} variant="secondary" size="sm">
+              <Button onClick={handleResume} variant="secondary" size="sm">
                 <Play className="h-3.5 w-3.5" /> Resume
               </Button>
             ) : (
-              <Button onClick={() => pause.mutate()} variant="secondary" size="sm">
+              <Button onClick={handlePause} variant="secondary" size="sm">
                 <Pause className="h-3.5 w-3.5" /> Pause
               </Button>
             )}
             {status === 'delayed' && (
-              <Button onClick={() => promoteAll.mutate()} variant="secondary" size="sm">
+              <Button onClick={handlePromoteAll} variant="secondary" size="sm">
                 <ChevronsUp className="h-3.5 w-3.5" /> Promote all
               </Button>
             )}
             {canRetry && queue.allowRetries && (
-              <Button onClick={() => retryAll.mutate()} variant="secondary" size="sm">
+              <Button onClick={handleRetryAll} variant="secondary" size="sm">
                 <RotateCcw className="h-3.5 w-3.5" /> Retry all
               </Button>
             )}
             {isCleanable && (
-              <Button
-                onClick={() => {
-                  if (confirm(`Clean all ${status} jobs from ${queue.name}?`)) cleanAll.mutate();
-                }}
-                variant="outline"
-                size="sm"
-              >
+              <Button onClick={handleCleanAll} variant="outline" size="sm">
                 <Trash2 className="h-3.5 w-3.5" /> Clean all
               </Button>
             )}

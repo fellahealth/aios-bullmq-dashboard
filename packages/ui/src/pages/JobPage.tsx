@@ -13,6 +13,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { useJob, useJobLogs } from '../hooks/useQueues';
+import { useConfirm } from '../hooks/useConfirm';
 import { api } from '../lib/api';
 import { Card, CardBody, CardHeader } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -24,6 +25,7 @@ export default function JobPage() {
   const { queueName, jobId } = useParams<{ queueName: string; jobId: string }>();
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const confirm = useConfirm();
   const { data, isLoading } = useJob(queueName, jobId);
   const { data: logs } = useJobLogs(queueName, jobId);
   const [tab, setTab] = useState<'data' | 'returnValue' | 'opts' | 'logs' | 'error'>('data');
@@ -48,6 +50,46 @@ export default function JobPage() {
     mutationFn: () => api.promoteJob(queueName!, jobId!),
     onSuccess: invalidate,
   });
+
+  const handleRetry = async () => {
+    if (
+      await confirm({
+        title: `Retry job #${jobId}?`,
+        description: 'The job moves back to the waiting state and will be picked up by a worker.',
+        confirmText: 'Retry',
+        icon: <RotateCcw />,
+      })
+    ) {
+      retry.mutate();
+    }
+  };
+
+  const handlePromote = async () => {
+    if (
+      await confirm({
+        title: `Promote job #${jobId}?`,
+        description: 'The job leaves the delayed set and runs as soon as a worker is free.',
+        confirmText: 'Promote',
+        icon: <ChevronsUp />,
+      })
+    ) {
+      promote.mutate();
+    }
+  };
+
+  const handleRemove = async () => {
+    if (
+      await confirm({
+        title: `Remove job #${jobId}?`,
+        description: 'This permanently deletes the job. Cannot be undone.',
+        confirmText: 'Remove',
+        variant: 'danger',
+        icon: <Trash2 />,
+      })
+    ) {
+      clean.mutate();
+    }
+  };
 
   if (isLoading || !data) {
     return (
@@ -95,21 +137,15 @@ export default function JobPage() {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <Button variant="secondary" size="sm" onClick={() => retry.mutate()}>
+        <Button variant="secondary" size="sm" onClick={handleRetry}>
           <RotateCcw className="h-3.5 w-3.5" /> Retry
         </Button>
         {status === 'delayed' && (
-          <Button variant="secondary" size="sm" onClick={() => promote.mutate()}>
+          <Button variant="secondary" size="sm" onClick={handlePromote}>
             <ChevronsUp className="h-3.5 w-3.5" /> Promote
           </Button>
         )}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => {
-            if (confirm(`Remove job #${job.id}?`)) clean.mutate();
-          }}
-        >
+        <Button variant="outline" size="sm" onClick={handleRemove}>
           <Trash2 className="h-3.5 w-3.5" /> Remove
         </Button>
       </div>
