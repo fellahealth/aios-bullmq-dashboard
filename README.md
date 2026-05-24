@@ -155,14 +155,6 @@ packages/
 
 ---
 
-## Contributing
-
-Issues and PRs welcome. Before contributing changes to `packages/api` or `packages/express`,
-note that those packages stay deliberately close to bull-board upstream so improvements can
-be backported in both directions — please flag any divergence from bull-board's contract.
-
----
-
 ## Acknowledgments
 
 - **[Felix Mosheev](https://github.com/felixmosh)** and the bull-board contributors —
