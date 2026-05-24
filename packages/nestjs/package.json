@@ -1,0 +1,48 @@
+{
+  "name": "@aios/bullmq-dashboard-nestjs",
+  "version": "0.1.0",
+  "description": "NestJS module for the aios bullmq dashboard.",
+  "keywords": [
+    "bull",
+    "bullmq",
+    "redis",
+    "queue",
+    "monitoring",
+    "nestjs",
+    "nestjs-module",
+    "aios"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@aios/bullmq-dashboard-api": "0.1.0",
+    "@aios/bullmq-dashboard-express": "0.1.0",
+    "@nestjs/bull-shared": "^11.0.0",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@types/node": "^22.10.5",
+    "bullmq": "^5.34.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "typescript": "^5.7.2"
+  },
+  "peerDependencies": {
+    "@aios/bullmq-dashboard-api": "0.1.0",
+    "@nestjs/bull-shared": "^10.0.0 || ^11.0.0",
+    "@nestjs/common": "^9.0.0 || ^10.0.0 || ^11.0.0",
+    "@nestjs/core": "^9.0.0 || ^10.0.0 || ^11.0.0",
+    "reflect-metadata": "^0.1.13 || ^0.2.0",
+    "rxjs": "^7.8.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

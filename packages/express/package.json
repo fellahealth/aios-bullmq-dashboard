@@ -1,0 +1,40 @@
+{
+  "name": "@aios/bullmq-dashboard-express",
+  "version": "0.1.0",
+  "description": "Express.js server adapter for the aios bullmq dashboard.",
+  "keywords": [
+    "bull",
+    "bullmq",
+    "redis",
+    "express",
+    "adapter",
+    "queue",
+    "monitoring",
+    "dashboard",
+    "aios"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aios/bullmq-dashboard-api": "0.1.0",
+    "@aios/bullmq-dashboard-ui": "0.1.0",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/express": "^5.0.0",
+    "typescript": "^5.7.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

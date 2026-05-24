@@ -1,0 +1,50 @@
+{
+  "name": "@aios/bullmq-dashboard-api",
+  "version": "0.1.0",
+  "description": "Framework-agnostic API for the aios bullmq dashboard. Compatible with the @bull-board/api protocol.",
+  "keywords": [
+    "bull",
+    "bullmq",
+    "redis",
+    "queue",
+    "monitoring",
+    "dashboard",
+    "aios"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "typings",
+    "*Adapter.*"
+  ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./dist/*": "./dist/*",
+    "./typings/*": "./typings/*.d.ts",
+    "./bullMQAdapter": "./bullMQAdapter.js",
+    "./bullAdapter": "./bullAdapter.js",
+    "./baseAdapter": "./baseAdapter.d.ts",
+    "./constants/statuses": "./dist/constants/statuses.js"
+  },
+  "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "redis-info": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/redis-info": "^3.0.3",
+    "bull": "^4.16.5",
+    "bullmq": "^5.34.0",
+    "typescript": "^5.7.2"
+  },
+  "peerDependencies": {
+    "@aios/bullmq-dashboard-ui": "0.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

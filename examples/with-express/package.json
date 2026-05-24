@@ -1,0 +1,25 @@
+{
+  "name": "@aios/bullmq-dashboard-example-express",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "seed": "tsx scripts/seed.ts"
+  },
+  "dependencies": {
+    "@aios/bullmq-dashboard-api": "0.1.0",
+    "@aios/bullmq-dashboard-express": "0.1.0",
+    "@aios/bullmq-dashboard-ui": "0.1.0",
+    "bullmq": "^5.34.0",
+    "express": "^4.21.2",
+    "ioredis": "^5.4.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

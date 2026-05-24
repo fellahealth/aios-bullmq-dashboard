@@ -1,0 +1,208 @@
+# aios-bullmq-dashboard
+
+A modern, professional dashboard for monitoring **[BullMQ](https://bullmq.io/)** and legacy
+**[Bull](https://github.com/OptimalBits/bull)** queues. Drop-in alternative to
+[`bull-board`](https://github.com/felixmosh/bull-board) — same wire protocol, same server
+adapters you already know, with a refreshed UI built on React 19, Tailwind v4, TanStack Query
+and a focused design system.
+
+> **Status:** alpha. The packages are wire-compatible with `@bull-board/*` so you can swap
+> imports and it Just Works — but they aren't published to npm yet. See
+> [Local development](#local-development) for using it today.
+
+---
+
+## A fork, not a rewrite
+
+This project is **derived from [`felixmosh/bull-board`](https://github.com/felixmosh/bull-board)**.
+The server-side packages — the framework-agnostic queue/job API and the Express/NestJS
+adapters — are ports of bull-board's source (MIT, attributed in
+[LICENSE](./LICENSE)). They needed almost no changes; bull-board's architecture is solid.
+
+The **UI is rewritten from scratch** with a different design vocabulary:
+
+- A dark-first palette designed for long sessions in front of a queue monitor
+- **Light / dark / system themes** with a no-flash inline init
+- Real-time charts and a sidebar that surfaces active job counts at a glance
+- A dedicated **Settings page** (polling interval, theme, future preferences)
+- Modern stack: Vite 6, React 19, Tailwind CSS v4, TanStack Query v5, React Router 7
+
+**Inspiration:** bull-board (UI conventions, REST endpoints), the Vercel and Linear dashboards
+(layout, color, motion), and the BullMQ admin tooling space in general. The goal isn't to
+replace bull-board — it's to offer an alternative for teams who want a more polished,
+opinionated UI without giving up the adapter ecosystem bull-board already built out.
+
+---
+
+## Packages
+
+| Package                           | Purpose                                                                          |
+| --------------------------------- | -------------------------------------------------------------------------------- |
+| `@aios/bullmq-dashboard-api`      | Framework-agnostic API. Wire-compatible with `@bull-board/api`.                  |
+| `@aios/bullmq-dashboard-ui`       | The new React UI. Ships as a static bundle (`dist/index.ejs` + `dist/static/`).  |
+| `@aios/bullmq-dashboard-express`  | Express server adapter.                                                          |
+| `@aios/bullmq-dashboard-nestjs`   | NestJS module (works with `@nestjs/bull` and `@nestjs/bullmq`).                  |
+
+Both **legacy Bull v4** and **BullMQ v5** are supported through
+`BullAdapter` and `BullMQAdapter` respectively.
+
+---
+
+## Quick start (NestJS)
+
+```bash
+yarn add \
+  @aios/bullmq-dashboard-api \
+  @aios/bullmq-dashboard-express \
+  @aios/bullmq-dashboard-nestjs \
+  @aios/bullmq-dashboard-ui
+```
+
+```ts
+import { Module } from '@nestjs/common';
+import { AIOSBullMQDashboardModule } from '@aios/bullmq-dashboard-nestjs';
+import { BullAdapter } from '@aios/bullmq-dashboard-api/bullAdapter';
+import { ExpressAdapter } from '@aios/bullmq-dashboard-express';
+import basicAuth from 'express-basic-auth';
+
+@Module({
+  imports: [
+    AIOSBullMQDashboardModule.forRoot({
+      route: '/queues',
+      adapter: ExpressAdapter,
+      dashboardOptions: {
+        uiConfig: {
+          title: 'My Queues',
+          subtitle: 'production',
+          environment: { label: 'Production', color: '#ef4444' },
+        },
+      },
+      middleware: basicAuth({
+        challenge: true,
+        users: { admin: process.env.DASHBOARD_PASSWORD! },
+      }),
+    }),
+    AIOSBullMQDashboardModule.forFeature(
+      { name: 'emails', adapter: BullAdapter, options: { displayName: 'Emails' } },
+      { name: 'reports', adapter: BullAdapter, options: { displayName: 'Reports' } },
+    ),
+  ],
+})
+export class AppModule {}
+```
+
+Mount the queues with `@nestjs/bull` or `@nestjs/bullmq` as usual — the dashboard discovers
+them via `AIOSBullMQDashboardModule.forFeature`. Open your app at `/queues`.
+
+Use `BullAdapter` for `@nestjs/bull` (legacy Bull v4) and `BullMQAdapter` (from
+`@aios/bullmq-dashboard-api/bullMQAdapter`) for `@nestjs/bullmq`.
+
+---
+
+## Configuration
+
+All options passed to `createDashboard({ options: { uiConfig: ... } })`:
+
+| Option                      | Type                                           | Default                  |
+| --------------------------- | ---------------------------------------------- | ------------------------ |
+| `title`                | `string`                                       | `'AIOS BullMQ Dashboard'`|
+| `subtitle`             | `string`                                       | unset (hidden)           |
+| `favIcon`                   | `{ default: string; alternative: string }`     | shipped icons            |
+| `environment`               | `{ label: string; color: string; textColor?: string }` | —                        |
+| `pollingInterval.forceInterval` | `number` (ms)                              | unset (user-controlled)  |
+| `miscLinks`                 | `Array<{ text: string; url: string }>`         | `[]`                     |
+| `hideRedisDetails`          | `boolean`                                      | `false`                  |
+
+If `pollingInterval.forceInterval` is set, the user's local setting on the Settings page is
+ignored and the UI displays a banner explaining the server-side override.
+
+---
+
+## Local development
+
+The repo is a yarn workspace with a runnable example. To play with the dashboard against a
+local Redis:
+
+```bash
+# Install Redis (or run via Docker):
+docker run -p 6379:6379 redis:7
+
+# Install workspace deps:
+yarn install
+
+# Build all packages once:
+yarn build
+
+# In one terminal, run the example Express server:
+yarn workspace @aios/bullmq-dashboard-example-express dev
+
+# In another terminal, seed it with synthetic jobs + workers:
+yarn workspace @aios/bullmq-dashboard-example-express seed
+
+# (Optional) Run the UI in dev mode with HMR, proxying API calls to :3000:
+yarn dev:ui
+```
+
+Open <http://localhost:3000/dashboard> (or <http://localhost:9000> for the Vite dev server).
+
+### Pointing the example at your own queues
+
+Set `QUEUES` to a comma-separated list of names your app uses:
+
+```bash
+REDIS_URL=redis://127.0.0.1:6379 \
+QUEUES=patient-onboarding,notification-emails,reports \
+yarn workspace @aios/bullmq-dashboard-example-express dev
+```
+
+The dashboard is read/write — pause, retry, clean, obliterate all act on the real Redis.
+Point it carefully.
+
+### Repository layout
+
+```
+packages/
+├── api/          Framework-agnostic API (ported from @bull-board/api)
+├── express/      Express server adapter
+├── nestjs/       NestJS module
+└── ui/           Modern React UI (Vite + React 19 + Tailwind v4)
+
+examples/
+└── with-express/ Runnable example + seed script
+```
+
+---
+
+## Compatibility
+
+- **Node** ≥ 18
+- **Bull** v4
+- **BullMQ** v5
+- **NestJS** v9, v10, v11 (peer-depended on `@nestjs/common` and `@nestjs/core`)
+- **Express** 4 or 5
+
+---
+
+## Contributing
+
+Issues and PRs welcome. Before contributing changes to `packages/api` or `packages/express`,
+note that those packages stay deliberately close to bull-board upstream so improvements can
+be backported in both directions — please flag any divergence from bull-board's contract.
+
+---
+
+## Acknowledgments
+
+- **[Felix Mosheev](https://github.com/felixmosh)** and the bull-board contributors —
+  the API, adapters, and overall protocol design are theirs. Without bull-board this
+  project would have been months of work instead of a weekend.
+- The **BullMQ** team for the queue itself.
+- The **Radix UI**, **Tailwind**, and **lucide-react** teams for the building blocks.
+
+---
+
+## License
+
+MIT — see [LICENSE](./LICENSE). Portions of `packages/api`, `packages/express`, and
+`packages/nestjs` are adapted from
+[felixmosh/bull-board](https://github.com/felixmosh/bull-board) (MIT, © Felix Mosheev).
