@@ -39,6 +39,20 @@ export const api = {
     ) as unknown as Promise<GetJobResponse>;
   },
 
+  searchJobs(
+    queueName: string,
+    params: { q: string; status?: Status; limit?: number }
+  ): Promise<{ jobs: AppJob[]; scanned: number; capped: boolean; total: number }> {
+    return http.get(`/queues/${encodeURIComponent(queueName)}/search`, {
+      params,
+    }) as unknown as Promise<{
+      jobs: AppJob[];
+      scanned: number;
+      capped: boolean;
+      total: number;
+    }>;
+  },
+
   getJobLogs(queueName: string, jobId: AppJob['id']): Promise<string[]> {
     return http.get(
       `/queues/${encodeURIComponent(queueName)}/${encodeURIComponent(String(jobId))}/logs`

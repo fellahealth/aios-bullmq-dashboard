@@ -61,3 +61,19 @@ export function useJobLogs(queueName: string | undefined, jobId: string | undefi
     refetchInterval,
   });
 }
+
+export function useJobSearch(
+  queueName: string | undefined,
+  params: { q: string; status?: Status; limit?: number }
+) {
+  return useQuery({
+    queryKey: ['search', queueName, params.q, params.status, params.limit],
+    queryFn: () => api.searchJobs(queueName!, params),
+    // Server scans up to 1000 jobs; no point hammering it. Only run when
+    // there's a query AND a queue name. Polling stays off — search results
+    // are a snapshot the user can refresh via the topbar.
+    enabled: Boolean(queueName && params.q.trim()),
+    placeholderData: (prev) => prev,
+    refetchInterval: false,
+  });
+}

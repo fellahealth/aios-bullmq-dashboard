@@ -1,7 +1,18 @@
 import { useParams, useSearchParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Pause, Play, Trash2, RotateCcw, ArrowUp, Plus, ChevronsUp } from 'lucide-react';
-import { useQueue } from '../hooks/useQueues';
+import {
+  Pause,
+  Play,
+  Trash2,
+  RotateCcw,
+  ArrowUp,
+  Plus,
+  ChevronsUp,
+  Search,
+  X,
+} from 'lucide-react';
+import { useQueue, useJobSearch } from '../hooks/useQueues';
 import { useSettings } from '../hooks/useSettings';
 import { useConfirm } from '../hooks/useConfirm';
 import { api } from '../lib/api';
@@ -12,6 +23,7 @@ import { Button } from '../components/ui/Button';
 import { Card, CardBody } from '../components/ui/Card';
 import { Skeleton } from '../components/ui/Skeleton';
 import { Badge } from '../components/ui/Badge';
+import { EmptyState } from '../components/ui/EmptyState';
 import type { JobCleanStatus, Status } from '../lib/types';
 import { formatNumber } from '../lib/utils';
 
@@ -24,11 +36,45 @@ export default function QueuePage() {
 
   const qc = useQueryClient();
   const confirm = useConfirm();
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [searchPage, setSearchPage] = useState(1);
+
+  // Debounce the search input by 300ms so we don't fire a server scan on
+  // every keystroke. The server endpoint walks up to 1000 jobs per call.
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(t);
+  }, [search]);
+
+  // Reset to page 1 whenever the active search term changes.
+  useEffect(() => {
+    setSearchPage(1);
+  }, [debouncedSearch, status]);
+
   const { queue, isLoading } = useQueue(queueName, {
     status,
     page,
     jobsPerPage,
   });
+
+  const isSearching = debouncedSearch.trim().length > 0;
+  const searchQuery = useJobSearch(queueName, {
+    q: debouncedSearch,
+    status,
+    limit: 1000,
+  });
+  const searchData = searchQuery.data;
+
+  // When searching, paginate the matched set client-side using the user's
+  // jobsPerPage preference. When not searching, fall through to whatever
+  // the server returned for the current page.
+  const displayJobs = useMemo(() => {
+    if (!isSearching) return queue?.jobs ?? [];
+    const all = searchData?.jobs ?? [];
+    const start = (searchPage - 1) * jobsPerPage;
+    return all.slice(start, start + jobsPerPage);
+  }, [isSearching, queue?.jobs, searchData?.jobs, searchPage, jobsPerPage]);
 
   const setStatus = (s: Status) => {
     params.set('status', s);
@@ -197,16 +243,69 @@ export default function QueuePage() {
             onChange={setStatus}
           />
           <div className="text-xs text-[var(--color-fg-subtle)]">
-            {queue.pagination.range.start + 1}–
-            {Math.min(queue.pagination.range.end + 1, queue.counts[status] ?? 0)} of{' '}
-            <span className="text-[var(--color-fg-muted)] tabular-nums">
-              {formatNumber(queue.counts[status] ?? 0)}
-            </span>
+            {isSearching ? (
+              <>
+                {searchQuery.isFetching ? (
+                  'Searching…'
+                ) : (
+                  <>
+                    {searchData?.total ?? 0} match{(searchData?.total ?? 0) === 1 ? '' : 'es'} in{' '}
+                    <span className="text-[var(--color-fg-muted)] tabular-nums">
+                      {formatNumber(searchData?.scanned ?? 0)}
+                    </span>{' '}
+                    scanned
+                    {searchData?.capped && ' (capped)'}
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                {queue.pagination.range.start + 1}–
+                {Math.min(queue.pagination.range.end + 1, queue.counts[status] ?? 0)} of{' '}
+                <span className="text-[var(--color-fg-muted)] tabular-nums">
+                  {formatNumber(queue.counts[status] ?? 0)}
+                </span>
+              </>
+            )}
           </div>
         </CardBody>
       </Card>
 
-      <JobTable queueName={queue.name} jobs={queue.jobs} status={status} />
+      <div className="relative">
+        <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[var(--color-fg-subtle)]" />
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={`Search ${status} jobs by ID…`}
+          className="h-8 w-full rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-surface-1)] pl-8 pr-8 text-xs text-[var(--color-fg)] placeholder:text-[var(--color-fg-subtle)] focus:border-blue-500/50 focus:outline-none"
+        />
+        {search && (
+          <button
+            onClick={() => setSearch('')}
+            className="absolute right-1.5 top-1/2 inline-flex h-5 w-5 -translate-y-1/2 cursor-pointer items-center justify-center rounded text-[var(--color-fg-subtle)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-fg)]"
+            aria-label="Clear search"
+          >
+            <X className="h-3 w-3" />
+          </button>
+        )}
+      </div>
+
+      {isSearching && searchData?.capped && (
+        <p className="text-[11px] text-amber-400">
+          Scanned the first {formatNumber(searchData.scanned)} {status} jobs. There may be more
+          matches past this point — narrow the status or refine your query.
+        </p>
+      )}
+
+      {isSearching && !searchQuery.isFetching && (searchData?.total ?? 0) === 0 ? (
+        <EmptyState
+          icon={<Search className="h-8 w-8" />}
+          title={`No ${status} jobs match "${debouncedSearch}"`}
+          description={`Scanned ${formatNumber(searchData?.scanned ?? 0)} jobs.${searchData?.capped ? ' Results past the scan cap aren\'t included.' : ''}`}
+        />
+      ) : (
+        <JobTable queueName={queue.name} jobs={displayJobs} status={status} />
+      )}
 
       <div className="flex items-center justify-between">
         {queue.globalConcurrency != null && (
@@ -217,9 +316,13 @@ export default function QueuePage() {
           </div>
         )}
         <Pagination
-          page={page}
-          pageCount={queue.pagination.pageCount}
-          onChange={setPage}
+          page={isSearching ? searchPage : page}
+          pageCount={
+            isSearching
+              ? Math.max(1, Math.ceil((searchData?.total ?? 0) / jobsPerPage))
+              : queue.pagination.pageCount
+          }
+          onChange={isSearching ? setSearchPage : setPage}
         />
       </div>
     </div>

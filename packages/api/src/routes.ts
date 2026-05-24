@@ -19,6 +19,7 @@ import { promoteAllHandler } from './handlers/promoteAll';
 import { updateJobDataHandler } from './handlers/updateJobData';
 import { pauseAllHandler } from './handlers/pauseAll';
 import { resumeAllHandler } from './handlers/resumeAll';
+import { searchJobsHandler } from './handlers/searchJobs';
 import { setGlobalConcurrencyHandler } from './handlers/setGlobalConcurrency';
 
 export const appRoutes: AppRouteDefs = {
@@ -30,6 +31,11 @@ export const appRoutes: AppRouteDefs = {
   api: [
     { method: 'get', route: '/api/redis/stats', handler: redisStatsHandler },
     { method: 'get', route: '/api/queues', handler: queuesHandler },
+    {
+      method: 'get',
+      route: '/api/queues/:queueName/search',
+      handler: searchJobsHandler,
+    },
     { method: 'put', route: '/api/queues/pause', handler: pauseAllHandler },
     { method: 'put', route: '/api/queues/resume', handler: resumeAllHandler },
     {
