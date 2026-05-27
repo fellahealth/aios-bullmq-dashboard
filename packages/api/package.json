@@ -1,7 +1,16 @@
 {
   "name": "@aios/bullmq-dashboard-api",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Framework-agnostic API for the aios bullmq dashboard. Compatible with the @bull-board/api protocol.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fellahealth/aios-bullmq-dashboard.git",
+    "directory": "packages/api"
+  },
+  "homepage": "https://github.com/fellahealth/aios-bullmq-dashboard#readme",
+  "bugs": {
+    "url": "https://github.com/fellahealth/aios-bullmq-dashboard/issues"
+  },
   "keywords": [
     "bull",
     "bullmq",
@@ -42,7 +51,7 @@
     "typescript": "^5.7.2"
   },
   "peerDependencies": {
-    "@aios/bullmq-dashboard-ui": "0.1.0"
+    "@aios/bullmq-dashboard-ui": "^1.0.0"
   },
   "publishConfig": {
     "access": "public"

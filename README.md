@@ -6,9 +6,8 @@ A modern, professional dashboard for monitoring **[BullMQ](https://bullmq.io/)**
 adapters you already know, with a refreshed UI built on React 19, Tailwind v4, TanStack Query
 and a focused design system.
 
-> **Status:** alpha. The packages are wire-compatible with `@bull-board/*` so you can swap
-> imports and it Just Works — but they aren't published to npm yet. See
-> [Local development](#local-development) for using it today.
+[![npm version](https://img.shields.io/npm/v/@aios/bullmq-dashboard-nestjs.svg)](https://www.npmjs.com/package/@aios/bullmq-dashboard-nestjs)
+[![license](https://img.shields.io/npm/l/@aios/bullmq-dashboard-nestjs.svg)](./LICENSE)
 
 ---
 
@@ -36,12 +35,12 @@ opinionated UI without giving up the adapter ecosystem bull-board already built 
 
 ## Packages
 
-| Package                           | Purpose                                                                          |
-| --------------------------------- | -------------------------------------------------------------------------------- |
-| `@aios/bullmq-dashboard-api`      | Framework-agnostic API. Wire-compatible with `@bull-board/api`.                  |
-| `@aios/bullmq-dashboard-ui`       | The new React UI. Ships as a static bundle (`dist/index.ejs` + `dist/static/`).  |
-| `@aios/bullmq-dashboard-express`  | Express server adapter.                                                          |
-| `@aios/bullmq-dashboard-nestjs`   | NestJS module (works with `@nestjs/bull` and `@nestjs/bullmq`).                  |
+| Package                                                                                          | Purpose                                                                          |
+| ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| [`@aios/bullmq-dashboard-api`](https://www.npmjs.com/package/@aios/bullmq-dashboard-api)         | Framework-agnostic API. Wire-compatible with `@bull-board/api`.                  |
+| [`@aios/bullmq-dashboard-ui`](https://www.npmjs.com/package/@aios/bullmq-dashboard-ui)           | The new React UI. Ships as a static bundle (`dist/index.ejs` + `dist/static/`).  |
+| [`@aios/bullmq-dashboard-express`](https://www.npmjs.com/package/@aios/bullmq-dashboard-express) | Express server adapter.                                                          |
+| [`@aios/bullmq-dashboard-nestjs`](https://www.npmjs.com/package/@aios/bullmq-dashboard-nestjs)   | NestJS module (works with `@nestjs/bull` and `@nestjs/bullmq`).                  |
 
 Both **legacy Bull v4** and **BullMQ v5** are supported through
 `BullAdapter` and `BullMQAdapter` respectively.

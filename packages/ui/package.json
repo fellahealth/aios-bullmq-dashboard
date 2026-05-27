@@ -1,8 +1,17 @@
 {
   "name": "@aios/bullmq-dashboard-ui",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Modern React UI for the aios bullmq dashboard.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fellahealth/aios-bullmq-dashboard.git",
+    "directory": "packages/ui"
+  },
+  "homepage": "https://github.com/fellahealth/aios-bullmq-dashboard#readme",
+  "bugs": {
+    "url": "https://github.com/fellahealth/aios-bullmq-dashboard/issues"
+  },
   "files": [
     "dist",
     "typings"
@@ -15,7 +24,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@aios/bullmq-dashboard-api": "0.1.0"
+    "@aios/bullmq-dashboard-api": "^1.0.0"
   },
   "devDependencies": {
     "@radix-ui/react-dialog": "^1.1.4",

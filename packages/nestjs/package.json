@@ -1,7 +1,16 @@
 {
   "name": "@aios/bullmq-dashboard-nestjs",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "NestJS module for the aios bullmq dashboard.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fellahealth/aios-bullmq-dashboard.git",
+    "directory": "packages/nestjs"
+  },
+  "homepage": "https://github.com/fellahealth/aios-bullmq-dashboard#readme",
+  "bugs": {
+    "url": "https://github.com/fellahealth/aios-bullmq-dashboard/issues"
+  },
   "keywords": [
     "bull",
     "bullmq",
@@ -23,8 +32,8 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@aios/bullmq-dashboard-api": "0.1.0",
-    "@aios/bullmq-dashboard-express": "0.1.0",
+    "@aios/bullmq-dashboard-api": "^1.0.0",
+    "@aios/bullmq-dashboard-express": "^1.0.0",
     "@nestjs/bull-shared": "^11.0.0",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
@@ -35,7 +44,7 @@
     "typescript": "^5.7.2"
   },
   "peerDependencies": {
-    "@aios/bullmq-dashboard-api": "0.1.0",
+    "@aios/bullmq-dashboard-api": "^1.0.0",
     "@nestjs/bull-shared": "^10.0.0 || ^11.0.0",
     "@nestjs/common": "^9.0.0 || ^10.0.0 || ^11.0.0",
     "@nestjs/core": "^9.0.0 || ^10.0.0 || ^11.0.0",

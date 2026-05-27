@@ -1,7 +1,16 @@
 {
   "name": "@aios/bullmq-dashboard-express",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Express.js server adapter for the aios bullmq dashboard.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fellahealth/aios-bullmq-dashboard.git",
+    "directory": "packages/express"
+  },
+  "homepage": "https://github.com/fellahealth/aios-bullmq-dashboard#readme",
+  "bugs": {
+    "url": "https://github.com/fellahealth/aios-bullmq-dashboard/issues"
+  },
   "keywords": [
     "bull",
     "bullmq",
@@ -24,8 +33,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@aios/bullmq-dashboard-api": "0.1.0",
-    "@aios/bullmq-dashboard-ui": "0.1.0",
+    "@aios/bullmq-dashboard-api": "^1.0.0",
+    "@aios/bullmq-dashboard-ui": "^1.0.0",
     "ejs": "^3.1.10",
     "express": "^4.21.2"
   },
