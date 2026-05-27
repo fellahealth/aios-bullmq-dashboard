@@ -7,7 +7,10 @@ adapters you already know, with a refreshed UI built on React 19, Tailwind v4, T
 and a focused design system.
 
 [![npm version](https://img.shields.io/npm/v/@aios-medical/bullmq-dashboard-nestjs.svg)](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-nestjs)
+[![npm org](https://img.shields.io/badge/npm-%40aios--medical-cb3837?logo=npm)](https://www.npmjs.com/org/aios-medical)
 [![license](https://img.shields.io/npm/l/@aios-medical/bullmq-dashboard-nestjs.svg)](./LICENSE)
+
+All four packages are published under the [`@aios-medical`](https://www.npmjs.com/org/aios-medical) npm org.
 
 ---
 
