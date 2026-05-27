@@ -6,7 +6,7 @@ import type {
   HTTPMethod,
   IServerAdapter,
   UIConfig,
-} from '@aios/bullmq-dashboard-api/typings/app';
+} from '@aios-medical/bullmq-dashboard-api/typings/app';
 import ejs from 'ejs';
 import express, { Express, Request, Response, Router } from 'express';
 import { wrapAsync } from './helpers/wrapAsync';

@@ -1,5 +1,5 @@
 import { DynamicModule, Inject, MiddlewareConsumer, Module, NestModule, Provider } from "@nestjs/common";
-import { createDashboard } from "@aios/bullmq-dashboard-api";
+import { createDashboard } from "@aios-medical/bullmq-dashboard-api";
 import { AIOS_BULLMQ_DASHBOARD_ADAPTER, AIOS_BULLMQ_DASHBOARD_INSTANCE, AIOS_BULLMQ_DASHBOARD_OPTIONS } from "./dashboard.constants";
 import { AIOSBullMQDashboardModuleAsyncOptions, AIOSBullMQDashboardModuleOptions, AIOSBullMQDashboardServerAdapter } from "./dashboard.types";
 import { ApplicationConfig, HttpAdapterHost } from "@nestjs/core";

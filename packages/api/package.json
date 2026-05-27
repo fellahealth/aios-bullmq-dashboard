@@ -1,5 +1,5 @@
 {
-  "name": "@aios/bullmq-dashboard-api",
+  "name": "@aios-medical/bullmq-dashboard-api",
   "version": "1.0.0",
   "description": "Framework-agnostic API for the aios bullmq dashboard. Compatible with the @bull-board/api protocol.",
   "repository": {
@@ -51,7 +51,7 @@
     "typescript": "^5.7.2"
   },
   "peerDependencies": {
-    "@aios/bullmq-dashboard-ui": "^1.0.0"
+    "@aios-medical/bullmq-dashboard-ui": "^1.0.0"
   },
   "publishConfig": {
     "access": "public"

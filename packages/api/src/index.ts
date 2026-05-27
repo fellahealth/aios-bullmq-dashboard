@@ -18,7 +18,7 @@ export function createDashboard({
   const uiBasePath =
     options.uiBasePath ||
     // oxlint-disable-next-line no-eval
-    path.dirname(eval(`require.resolve('@aios/bullmq-dashboard-ui/package.json')`));
+    path.dirname(eval(`require.resolve('@aios-medical/bullmq-dashboard-ui/package.json')`));
 
   serverAdapter
     .setQueues(queueRegistry)

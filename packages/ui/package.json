@@ -1,5 +1,5 @@
 {
-  "name": "@aios/bullmq-dashboard-ui",
+  "name": "@aios-medical/bullmq-dashboard-ui",
   "version": "1.0.0",
   "description": "Modern React UI for the aios bullmq dashboard.",
   "license": "MIT",
@@ -24,7 +24,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@aios/bullmq-dashboard-api": "^1.0.0"
+    "@aios-medical/bullmq-dashboard-api": "^1.0.0"
   },
   "devDependencies": {
     "@radix-ui/react-dialog": "^1.1.4",

@@ -1,10 +1,10 @@
-import { createDashboard } from '@aios/bullmq-dashboard-api';
+import { createDashboard } from '@aios-medical/bullmq-dashboard-api';
 import type {
   DashboardOptions,
   IServerAdapter,
   QueueAdapterOptions,
-} from '@aios/bullmq-dashboard-api/typings/app';
-import type { BaseAdapter } from '@aios/bullmq-dashboard-api/baseAdapter';
+} from '@aios-medical/bullmq-dashboard-api/typings/app';
+import type { BaseAdapter } from '@aios-medical/bullmq-dashboard-api/baseAdapter';
 import type { InjectionToken, ModuleMetadata, OptionalFactoryDependency } from '@nestjs/common';
 
 export type AIOSBullMQDashboardInstance = ReturnType<typeof createDashboard>;

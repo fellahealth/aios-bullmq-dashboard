@@ -6,8 +6,8 @@ A modern, professional dashboard for monitoring **[BullMQ](https://bullmq.io/)**
 adapters you already know, with a refreshed UI built on React 19, Tailwind v4, TanStack Query
 and a focused design system.
 
-[![npm version](https://img.shields.io/npm/v/@aios/bullmq-dashboard-nestjs.svg)](https://www.npmjs.com/package/@aios/bullmq-dashboard-nestjs)
-[![license](https://img.shields.io/npm/l/@aios/bullmq-dashboard-nestjs.svg)](./LICENSE)
+[![npm version](https://img.shields.io/npm/v/@aios-medical/bullmq-dashboard-nestjs.svg)](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-nestjs)
+[![license](https://img.shields.io/npm/l/@aios-medical/bullmq-dashboard-nestjs.svg)](./LICENSE)
 
 ---
 
@@ -37,10 +37,10 @@ opinionated UI without giving up the adapter ecosystem bull-board already built 
 
 | Package                                                                                          | Purpose                                                                          |
 | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| [`@aios/bullmq-dashboard-api`](https://www.npmjs.com/package/@aios/bullmq-dashboard-api)         | Framework-agnostic API. Wire-compatible with `@bull-board/api`.                  |
-| [`@aios/bullmq-dashboard-ui`](https://www.npmjs.com/package/@aios/bullmq-dashboard-ui)           | The new React UI. Ships as a static bundle (`dist/index.ejs` + `dist/static/`).  |
-| [`@aios/bullmq-dashboard-express`](https://www.npmjs.com/package/@aios/bullmq-dashboard-express) | Express server adapter.                                                          |
-| [`@aios/bullmq-dashboard-nestjs`](https://www.npmjs.com/package/@aios/bullmq-dashboard-nestjs)   | NestJS module (works with `@nestjs/bull` and `@nestjs/bullmq`).                  |
+| [`@aios-medical/bullmq-dashboard-api`](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-api)         | Framework-agnostic API. Wire-compatible with `@bull-board/api`.                  |
+| [`@aios-medical/bullmq-dashboard-ui`](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-ui)           | The new React UI. Ships as a static bundle (`dist/index.ejs` + `dist/static/`).  |
+| [`@aios-medical/bullmq-dashboard-express`](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-express) | Express server adapter.                                                          |
+| [`@aios-medical/bullmq-dashboard-nestjs`](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-nestjs)   | NestJS module (works with `@nestjs/bull` and `@nestjs/bullmq`).                  |
 
 Both **legacy Bull v4** and **BullMQ v5** are supported through
 `BullAdapter` and `BullMQAdapter` respectively.
@@ -51,17 +51,17 @@ Both **legacy Bull v4** and **BullMQ v5** are supported through
 
 ```bash
 yarn add \
-  @aios/bullmq-dashboard-api \
-  @aios/bullmq-dashboard-express \
-  @aios/bullmq-dashboard-nestjs \
-  @aios/bullmq-dashboard-ui
+  @aios-medical/bullmq-dashboard-api \
+  @aios-medical/bullmq-dashboard-express \
+  @aios-medical/bullmq-dashboard-nestjs \
+  @aios-medical/bullmq-dashboard-ui
 ```
 
 ```ts
 import { Module } from '@nestjs/common';
-import { AIOSBullMQDashboardModule } from '@aios/bullmq-dashboard-nestjs';
-import { BullAdapter } from '@aios/bullmq-dashboard-api/bullAdapter';
-import { ExpressAdapter } from '@aios/bullmq-dashboard-express';
+import { AIOSBullMQDashboardModule } from '@aios-medical/bullmq-dashboard-nestjs';
+import { BullAdapter } from '@aios-medical/bullmq-dashboard-api/bullAdapter';
+import { ExpressAdapter } from '@aios-medical/bullmq-dashboard-express';
 import basicAuth from 'express-basic-auth';
 
 @Module({
@@ -94,7 +94,7 @@ Mount the queues with `@nestjs/bull` or `@nestjs/bullmq` as usual — the dashbo
 them via `AIOSBullMQDashboardModule.forFeature`. Open your app at `/queues`.
 
 Use `BullAdapter` for `@nestjs/bull` (legacy Bull v4) and `BullMQAdapter` (from
-`@aios/bullmq-dashboard-api/bullMQAdapter`) for `@nestjs/bullmq`.
+`@aios-medical/bullmq-dashboard-api/bullMQAdapter`) for `@nestjs/bullmq`.
 
 ---
 
@@ -124,7 +124,7 @@ The repo is a yarn workspace. To work on the packages:
 ```bash
 yarn install
 yarn build           # build all packages once
-yarn workspace @aios/bullmq-dashboard-ui dev   # UI in dev mode with HMR
+yarn workspace @aios-medical/bullmq-dashboard-ui dev   # UI in dev mode with HMR
 yarn typecheck       # run tsc across the workspace
 ```
 

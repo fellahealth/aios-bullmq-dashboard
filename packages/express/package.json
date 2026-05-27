@@ -1,5 +1,5 @@
 {
-  "name": "@aios/bullmq-dashboard-express",
+  "name": "@aios-medical/bullmq-dashboard-express",
   "version": "1.0.0",
   "description": "Express.js server adapter for the aios bullmq dashboard.",
   "repository": {
@@ -33,8 +33,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@aios/bullmq-dashboard-api": "^1.0.0",
-    "@aios/bullmq-dashboard-ui": "^1.0.0",
+    "@aios-medical/bullmq-dashboard-api": "^1.0.0",
+    "@aios-medical/bullmq-dashboard-ui": "^1.0.0",
     "ejs": "^3.1.10",
     "express": "^4.21.2"
   },

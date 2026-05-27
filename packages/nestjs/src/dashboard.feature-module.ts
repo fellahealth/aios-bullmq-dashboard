@@ -1,7 +1,7 @@
 import { Inject, Module, OnApplicationBootstrap, OnModuleInit } from "@nestjs/common";
 import { DiscoveryService, MetadataScanner, ModuleRef } from "@nestjs/core";
 import { getQueueToken } from "@nestjs/bull-shared";
-import type { BaseAdapter } from "@aios/bullmq-dashboard-api/baseAdapter";
+import type { BaseAdapter } from "@aios-medical/bullmq-dashboard-api/baseAdapter";
 import { AIOSBullMQDashboardInstance, AIOSBullMQDashboardQueueOptions } from "./dashboard.types";
 import { Queue } from "bullmq";
 import { AIOS_BULLMQ_DASHBOARD_INSTANCE, AIOS_BULLMQ_DASHBOARD_QUEUES } from "./dashboard.constants";

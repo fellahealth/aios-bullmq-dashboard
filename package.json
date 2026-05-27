@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "yarn workspaces run build",
-    "dev:ui": "yarn workspace @aios/bullmq-dashboard-ui dev",
+    "dev:ui": "yarn workspace @aios-medical/bullmq-dashboard-ui dev",
     "clean": "yarn workspaces run clean",
     "typecheck": "yarn workspaces run typecheck",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\""
