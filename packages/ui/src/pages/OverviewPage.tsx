@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Inbox, LayoutGrid, Rows3, Search, X } from 'lucide-react';
+import { Filter, Inbox, LayoutGrid, Rows3, Search, X } from 'lucide-react';
 import { useQueues } from '../hooks/useQueues';
 import { useSettings } from '../hooks/useSettings';
 import { QueueCard } from '../components/QueueCard';
@@ -7,14 +7,18 @@ import { QueueTable } from '../components/QueueTable';
 import { Skeleton } from '../components/ui/Skeleton';
 import { EmptyState } from '../components/ui/EmptyState';
 import { PRIMARY_STATUSES, STATUS_META } from '../lib/status';
+import type { Status } from '../lib/types';
 import { cn, formatNumber } from '../lib/utils';
 import type { OverviewView } from '../lib/settings';
+
+type StatusFilter = Status | 'all';
 
 export default function OverviewPage() {
   const { data, isLoading, isError } = useQueues();
   const { overviewView, set } = useSettings();
   const queues = data?.queues ?? [];
   const [filter, setFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
 
   const totals = useMemo(() => {
     const out: Record<string, number> = {
@@ -33,16 +37,23 @@ export default function OverviewPage() {
     return out;
   }, [queues]);
 
+  const queuesByStatus = useMemo(() => {
+    if (statusFilter === 'all') return queues;
+    return queues.filter((q) => (q.counts[statusFilter] ?? 0) > 0);
+  }, [queues, statusFilter]);
+
   const filteredQueues = useMemo(() => {
-    if (!filter) return queues;
+    if (!filter) return queuesByStatus;
     const q = filter.toLowerCase();
-    return queues.filter(
+    return queuesByStatus.filter(
       (item) =>
         item.name.toLowerCase().includes(q) ||
         (item.displayName ?? '').toLowerCase().includes(q) ||
         (item.description ?? '').toLowerCase().includes(q)
     );
-  }, [queues, filter]);
+  }, [queuesByStatus, filter]);
+
+  const isFiltered = !!filter || statusFilter !== 'all';
 
   return (
     <div className="space-y-6">
@@ -85,13 +96,18 @@ export default function OverviewPage() {
                 </button>
               )}
             </div>
+            <StatusSelect
+              value={statusFilter}
+              onChange={setStatusFilter}
+              counts={queues}
+            />
             <ViewToggle
               value={overviewView}
               onChange={(v) => set('overviewView', v)}
             />
             {data && (
               <span className="text-xs text-[var(--color-fg-subtle)]">
-                {filter
+                {isFiltered
                   ? `${filteredQueues.length} of ${queues.length}`
                   : `${queues.length} queue${queues.length === 1 ? '' : 's'}`}
               </span>
@@ -133,8 +149,12 @@ export default function OverviewPage() {
         {!isLoading && queues.length > 0 && filteredQueues.length === 0 && (
           <EmptyState
             icon={<Search className="h-8 w-8" />}
-            title={`No queues match "${filter}"`}
-            description="Try a different search term, or clear the filter to see all queues."
+            title={
+              filter
+                ? `No queues match "${filter}"`
+                : `No queues with ${STATUS_META[statusFilter as Status]?.label.toLowerCase()} jobs`
+            }
+            description="Try a different filter, or clear it to see all queues."
           />
         )}
 
@@ -150,6 +170,52 @@ export default function OverviewPage() {
           <QueueTable queues={filteredQueues} />
         )}
       </section>
+    </div>
+  );
+}
+
+function StatusSelect({
+  value,
+  onChange,
+  counts,
+}: {
+  value: StatusFilter;
+  onChange: (v: StatusFilter) => void;
+  counts: ReadonlyArray<{ counts: Partial<Record<Status, number>> }>;
+}) {
+  const dotColor = value === 'all' ? undefined : STATUS_META[value as Status]?.color;
+  const queuesWithStatus = (s: Status) =>
+    counts.reduce((n, q) => n + ((q.counts[s] ?? 0) > 0 ? 1 : 0), 0);
+
+  return (
+    <div className="relative">
+      <span className="pointer-events-none absolute left-2.5 top-1/2 inline-flex h-3.5 w-3.5 -translate-y-1/2 items-center justify-center text-[var(--color-fg-subtle)]">
+        {dotColor ? (
+          <span className="h-2 w-2 rounded-full" style={{ background: dotColor }} />
+        ) : (
+          <Filter className="h-3.5 w-3.5" />
+        )}
+      </span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value as StatusFilter)}
+        aria-label="Filter queues by status"
+        className="h-8 appearance-none rounded-md border border-[var(--color-border-subtle)] bg-[var(--color-surface-1)] pl-7 pr-6 text-xs text-[var(--color-fg)] focus:border-blue-500/50 focus:outline-none"
+      >
+        <option value="all">All statuses ({counts.length})</option>
+        {PRIMARY_STATUSES.map((s) => (
+          <option key={s} value={s}>
+            {STATUS_META[s].label} ({queuesWithStatus(s)})
+          </option>
+        ))}
+      </select>
+      <svg
+        viewBox="0 0 10 6"
+        aria-hidden="true"
+        className="pointer-events-none absolute right-2 top-1/2 h-2 w-2.5 -translate-y-1/2 text-[var(--color-fg-subtle)]"
+      >
+        <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" />
+      </svg>
     </div>
   );
 }
