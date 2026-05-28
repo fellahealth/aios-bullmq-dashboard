@@ -1,6 +1,6 @@
 {
   "name": "@aios-medical/bullmq-dashboard-ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Modern React UI for the aios bullmq dashboard.",
   "license": "MIT",
   "repository": {

@@ -13,14 +13,18 @@ export type JobsPerPage = 10 | 20 | 50 | 100;
 
 export const JOBS_PER_PAGE_OPTIONS: JobsPerPage[] = [10, 20, 50, 100];
 
+export type OverviewView = 'cards' | 'table';
+
 export interface Settings {
   pollingInterval: PollingInterval;
   jobsPerPage: JobsPerPage;
+  overviewView: OverviewView;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
   pollingInterval: 5000,
   jobsPerPage: 10,
+  overviewView: 'cards',
 };
 
 export const SETTINGS_STORAGE_KEY = 'aios-bullmq-settings';
