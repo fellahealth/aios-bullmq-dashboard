@@ -14,16 +14,16 @@ All four packages are published under the [`@aios-medical`](https://www.npmjs.co
 
 ---
 
-<img alt="Overview — live view of all queues, their throughput and health" src="./screenshots/overview.png" />
+<img alt="Overview: live view of all queues, their throughput and health" src="./screenshots/overview.png" />
 
-_More views — queue detail, job inspection, job actions and settings — are available in the [`screenshots`](./screenshots) folder._
+_More views (queue detail, job inspection, job actions and settings) are available in the [`screenshots`](./screenshots) folder._
 
 
 ## A fork, not a rewrite
 
 This project is **derived from [`felixmosh/bull-board`](https://github.com/felixmosh/bull-board)**.
-The server-side packages — the framework-agnostic queue/job API and the Express/NestJS
-adapters — are ports of bull-board's source (MIT, attributed in
+The server-side packages (the framework-agnostic queue/job API and the Express/NestJS
+adapters) are ports of bull-board's source (MIT, attributed in
 [LICENSE](./LICENSE)). They needed almost no changes; bull-board's architecture is solid.
 
 The **UI is rewritten from scratch** with a different design vocabulary:
@@ -36,7 +36,7 @@ The **UI is rewritten from scratch** with a different design vocabulary:
 
 **Inspiration:** bull-board (UI conventions, REST endpoints), the Vercel and Linear dashboards
 (layout, color, motion), and the BullMQ admin tooling space in general. The goal isn't to
-replace bull-board — it's to offer an alternative for teams who want a more polished,
+replace bull-board; it's to offer an alternative for teams who want a more polished,
 opinionated UI without giving up the adapter ecosystem bull-board already built out.
 
 ---
@@ -98,7 +98,7 @@ import basicAuth from 'express-basic-auth';
 export class AppModule {}
 ```
 
-Mount the queues with `@nestjs/bull` or `@nestjs/bullmq` as usual — the dashboard discovers
+Mount the queues with `@nestjs/bull` or `@nestjs/bullmq` as usual; the dashboard discovers
 them via `AIOSBullMQDashboardModule.forFeature`. Open your app at `/queues`.
 
 Use `BullAdapter` for `@nestjs/bull` (legacy Bull v4) and `BullMQAdapter` (from
@@ -115,7 +115,7 @@ All options passed to `createDashboard({ options: { uiConfig: ... } })`:
 | `title`                | `string`                                       | `'AIOS BullMQ Dashboard'`|
 | `subtitle`             | `string`                                       | unset (hidden)           |
 | `favIcon`                   | `{ default: string; alternative: string }`     | shipped icons            |
-| `environment`               | `{ label: string; color: string; textColor?: string }` | —                        |
+| `environment`               | `{ label: string; color: string; textColor?: string }` | -                        |
 | `pollingInterval.forceInterval` | `number` (ms)                              | unset (user-controlled)  |
 | `miscLinks`                 | `Array<{ text: string; url: string }>`         | `[]`                     |
 | `hideRedisDetails`          | `boolean`                                      | `false`                  |
@@ -164,7 +164,7 @@ packages/
 
 ## Acknowledgments
 
-- **[Felix Mosheev](https://github.com/felixmosh)** and the bull-board contributors —
+- **[Felix Mosheev](https://github.com/felixmosh)** and the bull-board contributors:
   the API, adapters, and overall protocol design are theirs. Without bull-board this
   project would have been months of work instead of a weekend.
 - The **BullMQ** team for the queue itself.
@@ -174,6 +174,6 @@ packages/
 
 ## License
 
-MIT — see [LICENSE](./LICENSE). Portions of `packages/api`, `packages/express`, and
+MIT. See [LICENSE](./LICENSE). Portions of `packages/api`, `packages/express`, and
 `packages/nestjs` are adapted from
 [felixmosh/bull-board](https://github.com/felixmosh/bull-board) (MIT, © Felix Mosheev).
