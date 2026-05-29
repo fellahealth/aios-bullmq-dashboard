@@ -2,7 +2,7 @@
 
 A modern, professional dashboard for monitoring **[BullMQ](https://bullmq.io/)** and legacy
 **[Bull](https://github.com/OptimalBits/bull)** queues. Drop-in alternative to
-[`bull-board`](https://github.com/felixmosh/bull-board) — same wire protocol, same server
+[`bull-board`](https://github.com/felixmosh/bull-board), same wire protocol, same server
 adapters you already know, with a refreshed UI built on React 19, Tailwind v4, TanStack Query
 and a focused design system.
 
@@ -13,6 +13,13 @@ and a focused design system.
 All four packages are published under the [`@aios-medical`](https://www.npmjs.com/org/aios-medical) npm org.
 
 ---
+
+<img width="1512" height="811" alt="Screenshot 2026-05-29 at 11 27 29 PM" src="https://github.com/user-attachments/assets/adbb299b-6a2b-42f2-b43d-dc8057d6e3b6" />
+<img width="1512" height="811" alt="Screenshot 2026-05-29 at 11 28 09 PM" src="https://github.com/user-attachments/assets/b31eb64e-aa0f-4ebe-8f7c-7df86aec2fae" />
+<img width="1512" height="811" alt="Screenshot 2026-05-29 at 11 28 23 PM" src="https://github.com/user-attachments/assets/277fbc0d-3397-4dfb-ac27-3518baa5fb36" />
+<img width="1512" height="811" alt="Screenshot 2026-05-29 at 11 28 31 PM" src="https://github.com/user-attachments/assets/bb594a55-a8f9-4dd7-a85e-1135d6326489" />
+<img width="1512" height="811" alt="Screenshot 2026-05-29 at 11 28 41 PM" src="https://github.com/user-attachments/assets/87bd5e1a-d7fa-4b46-b627-286c589e50fd" />
+
 
 ## A fork, not a rewrite
 
