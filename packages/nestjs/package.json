@@ -41,7 +41,7 @@
     "bullmq": "^5.34.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "typescript": "^5.7.2"
+    "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "@aios-medical/bullmq-dashboard-api": "^1.0.0",
