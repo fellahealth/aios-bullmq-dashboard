@@ -2,8 +2,6 @@
 
 Modern React UI for the AIOS BullMQ Dashboard. Built with React 19, Tailwind CSS v4, TanStack Query, and React Router 7.
 
-A refreshed, drop-in alternative to [`bull-board`](https://github.com/felixmosh/bull-board)'s UI.
-
 <img alt="Overview: live view of all queues, their throughput and health" src="https://raw.githubusercontent.com/fellahealth/aios-bullmq-dashboard/main/screenshots/overview.png" />
 
 ## Installation

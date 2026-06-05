@@ -1,7 +1,7 @@
 {
   "name": "@aios-medical/bullmq-dashboard-ui",
   "version": "1.0.4",
-  "description": "Modern React dashboard UI for monitoring BullMQ and Bull queues. A refreshed, drop-in alternative to bull-board's UI.",
+  "description": "Modern React dashboard UI for monitoring BullMQ and Bull queues.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -17,7 +17,6 @@
     "dashboard",
     "ui",
     "react",
-    "bull-board",
     "aios"
   ],
   "homepage": "https://github.com/fellahealth/aios-bullmq-dashboard#readme",

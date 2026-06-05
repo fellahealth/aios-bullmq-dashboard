@@ -1,6 +1,6 @@
 # @aios-medical/bullmq-dashboard-nestjs
 
-NestJS module for the AIOS BullMQ Dashboard. Works with `@nestjs/bull` and `@nestjs/bullmq`. A modern, drop-in alternative to [`bull-board`](https://github.com/felixmosh/bull-board).
+NestJS module for the AIOS BullMQ Dashboard. Works with `@nestjs/bull` and `@nestjs/bullmq`.
 
 <img alt="AIOS BullMQ Dashboard overview" src="https://raw.githubusercontent.com/fellahealth/aios-bullmq-dashboard/main/screenshots/overview.png" />
 

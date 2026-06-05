@@ -1,6 +1,6 @@
 # @aios-medical/bullmq-dashboard-express
 
-Express.js server adapter for the AIOS BullMQ Dashboard. A modern, drop-in alternative to [`bull-board`](https://github.com/felixmosh/bull-board).
+Express.js server adapter for the AIOS BullMQ Dashboard.
 
 <img alt="AIOS BullMQ Dashboard overview" src="https://raw.githubusercontent.com/fellahealth/aios-bullmq-dashboard/main/screenshots/overview.png" />
 

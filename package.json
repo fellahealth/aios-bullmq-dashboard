@@ -2,7 +2,7 @@
   "name": "aios-bullmq-dashboard",
   "version": "1.0.0",
   "private": true,
-  "description": "A modern, professional dashboard for BullMQ — built as a drop-in alternative to bull-board with a refreshed UI.",
+  "description": "A modern, professional dashboard for BullMQ with a refreshed UI.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fellahealth/aios-bullmq-dashboard.git"

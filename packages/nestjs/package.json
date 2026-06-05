@@ -19,7 +19,6 @@
     "monitoring",
     "nestjs",
     "nestjs-module",
-    "bull-board",
     "aios"
   ],
   "license": "MIT",

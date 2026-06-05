@@ -1,7 +1,7 @@
 {
   "name": "@aios-medical/bullmq-dashboard-api",
   "version": "1.0.2",
-  "description": "Framework-agnostic API for the aios bullmq dashboard. Compatible with the @bull-board/api protocol.",
+  "description": "Framework-agnostic API for the aios bullmq dashboard.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fellahealth/aios-bullmq-dashboard.git",
@@ -18,7 +18,6 @@
     "queue",
     "monitoring",
     "dashboard",
-    "bull-board",
     "aios"
   ],
   "license": "MIT",

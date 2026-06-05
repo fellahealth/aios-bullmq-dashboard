@@ -20,7 +20,6 @@
     "queue",
     "monitoring",
     "dashboard",
-    "bull-board",
     "aios"
   ],
   "license": "MIT",
