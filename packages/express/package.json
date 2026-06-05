@@ -36,7 +36,7 @@
     "@aios-medical/bullmq-dashboard-api": "^1.0.0",
     "@aios-medical/bullmq-dashboard-ui": "^1.0.0",
     "ejs": "^3.1.10",
-    "express": "^4.21.2"
+    "express": "^5.2.1"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.5",
