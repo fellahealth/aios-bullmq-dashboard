@@ -2,6 +2,10 @@
 
 Modern React UI for the AIOS BullMQ Dashboard. Built with React 19, Tailwind CSS v4, TanStack Query, and React Router 7.
 
+A refreshed, drop-in alternative to [`bull-board`](https://github.com/felixmosh/bull-board)'s UI.
+
+<img alt="Overview: live view of all queues, their throughput and health" src="https://raw.githubusercontent.com/fellahealth/aios-bullmq-dashboard/main/screenshots/overview.png" />
+
 ## Installation
 
 ```bash
@@ -29,6 +33,24 @@ This package provides a modern, professional user interface for monitoring Bull 
 - **Settings Panel**: Customize polling interval, theme, and preferences
 - **Status Filtering**: Filter jobs by status (active, waiting, completed, failed, etc.)
 - **Search**: Search jobs by ID or data
+
+## Screenshots
+
+### Queue detail
+
+<img alt="Queue detail view" src="https://raw.githubusercontent.com/fellahealth/aios-bullmq-dashboard/main/screenshots/queue-detail.png" />
+
+### Job detail
+
+<img alt="Job detail view" src="https://raw.githubusercontent.com/fellahealth/aios-bullmq-dashboard/main/screenshots/job-detail.png" />
+
+### Job actions
+
+<img alt="Promote job action" src="https://raw.githubusercontent.com/fellahealth/aios-bullmq-dashboard/main/screenshots/promote-job.png" />
+
+### Settings
+
+<img alt="Settings page" src="https://raw.githubusercontent.com/fellahealth/aios-bullmq-dashboard/main/screenshots/settings.png" />
 
 ## Integration
 

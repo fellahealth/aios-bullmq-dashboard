@@ -1,6 +1,8 @@
 # @aios-medical/bullmq-dashboard-api
 
-Framework-agnostic API for the AIOS BullMQ Dashboard. Compatible with the `@bull-board/api` protocol.
+Framework-agnostic API for the AIOS BullMQ Dashboard. Compatible with the `@bull-board/api` protocol. A modern, drop-in alternative to [`bull-board`](https://github.com/felixmosh/bull-board).
+
+<img alt="AIOS BullMQ Dashboard overview" src="https://raw.githubusercontent.com/fellahealth/aios-bullmq-dashboard/main/screenshots/overview.png" />
 
 ## Installation
 
