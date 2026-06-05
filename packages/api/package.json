@@ -1,6 +1,6 @@
 {
   "name": "@aios-medical/bullmq-dashboard-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Framework-agnostic API for the aios bullmq dashboard. Compatible with the @bull-board/api protocol.",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "@aios-medical/bullmq-dashboard-nestjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NestJS module for the aios bullmq dashboard.",
   "repository": {
     "type": "git",

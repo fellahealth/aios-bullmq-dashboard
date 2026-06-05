@@ -1,6 +1,6 @@
 {
   "name": "@aios-medical/bullmq-dashboard-express",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Express.js server adapter for the aios bullmq dashboard.",
   "repository": {
     "type": "git",
