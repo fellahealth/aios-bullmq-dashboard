@@ -1,0 +1,57 @@
+{
+  "name": "@aios-medical/bullmq-dashboard-standalone",
+  "version": "1.0.0",
+  "description": "Standalone BullMQ dashboard server. Point it at a Redis instance and it auto-discovers your queues, with no code changes and no redeploy.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fellahealth/bullmq-dashboard.git",
+    "directory": "packages/standalone"
+  },
+  "homepage": "https://github.com/fellahealth/bullmq-dashboard#readme",
+  "bugs": {
+    "url": "https://github.com/fellahealth/bullmq-dashboard/issues"
+  },
+  "keywords": [
+    "bull",
+    "bullmq",
+    "redis",
+    "queue",
+    "monitoring",
+    "dashboard",
+    "standalone",
+    "docker",
+    "aios"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "bin": {
+    "bullmq-dashboard": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rm -rf dist",
+    "start": "node dist/cli.js",
+    "dev": "tsc && node dist/cli.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aios-medical/bullmq-dashboard-api": "^1.0.0",
+    "@aios-medical/bullmq-dashboard-express": "^1.0.0",
+    "@aios-medical/bullmq-dashboard-ui": "^1.0.0",
+    "bullmq": "^5.78.1",
+    "express": "^4.21.2",
+    "express-basic-auth": "^1.2.1",
+    "ioredis": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

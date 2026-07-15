@@ -49,9 +49,37 @@ opinionated UI without giving up the adapter ecosystem bull-board already built 
 | [`@aios-medical/bullmq-dashboard-ui`](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-ui)           | The new React UI. Ships as a static bundle (`dist/index.ejs` + `dist/static/`).  |
 | [`@aios-medical/bullmq-dashboard-express`](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-express) | Express server adapter.                                                          |
 | [`@aios-medical/bullmq-dashboard-nestjs`](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-nestjs)   | NestJS module (works with `@nestjs/bull` and `@nestjs/bullmq`).                  |
+| [`@aios-medical/bullmq-dashboard-standalone`](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-standalone) | Standalone server + Docker image. Connects to Redis and auto-discovers queues.   |
 
 Both **legacy Bull v4** and **BullMQ v5** are supported through
 `BullAdapter` and `BullMQAdapter` respectively.
+
+---
+
+## Standalone / Docker (no code changes)
+
+Don't want to wire the dashboard into your app? Run it as its own service. It
+connects to Redis, **auto-discovers your BullMQ queues**, and serves the same UI
+with no adapters and no redeploy, and it works with any app in any language.
+
+```bash
+docker run -p 3000:3000 -e REDIS_URL=redis://your-redis:6379 \
+  ghcr.io/fellahealth/bullmq-dashboard
+```
+
+Open http://localhost:3000. Or try the demo stack (Redis + dashboard + a job
+seeder so there's data to look at):
+
+```bash
+docker compose -f docker/docker-compose.yml up --build
+```
+
+Configure via env vars (`REDIS_URL`, `BASIC_AUTH_USERNAME`/`BASIC_AUTH_PASSWORD`,
+`READ_ONLY`, `BASE_PATH`, `QUEUE_NAMES`, …). See the
+[standalone package README](./packages/standalone/README.md) for the full list.
+
+> Scope: standalone auto-discovery targets **BullMQ v5** on a single-node Redis.
+> For legacy Bull v4, use the embedded Express / NestJS adapters above.
 
 ---
 

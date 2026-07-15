@@ -1,0 +1,37 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  dashboard:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: bullmq-dashboard
+    ports:
+      - '3000:3000'
+    environment:
+      REDIS_URL: redis://redis:6379
+      DASHBOARD_TITLE: BullMQ Dashboard (demo)
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  seeder:
+    image: bullmq-dashboard
+    working_dir: /app
+    volumes:
+      - ./seed.mjs:/app/seed.mjs:ro
+    environment:
+      REDIS_URL: redis://redis:6379
+    command: ['node', 'seed.mjs']
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped

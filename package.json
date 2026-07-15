@@ -14,6 +14,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "resolutions": {
+    "ioredis": "5.10.1"
+  },
   "scripts": {
     "build": "yarn workspaces run build",
     "dev:ui": "yarn workspace @aios-medical/bullmq-dashboard-ui dev",
