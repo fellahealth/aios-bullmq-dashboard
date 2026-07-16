@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+.git
+.github
+.context
+screenshots
+*.log
+.DS_Store
+docker/
