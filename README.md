@@ -1,4 +1,4 @@
-# aios-bullmq-dashboard
+# BullMQ Dashboard
 
 A modern, professional dashboard for monitoring **[BullMQ](https://bullmq.io/)** and legacy
 **[Bull](https://github.com/OptimalBits/bull)** queues. Drop-in alternative to
