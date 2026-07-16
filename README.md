@@ -50,8 +50,41 @@ opinionated UI without giving up the adapter ecosystem bull-board already built 
 | [`@aios-medical/bullmq-dashboard-express`](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-express) | Express server adapter.                                                          |
 | [`@aios-medical/bullmq-dashboard-nestjs`](https://www.npmjs.com/package/@aios-medical/bullmq-dashboard-nestjs)   | NestJS module (works with `@nestjs/bull` and `@nestjs/bullmq`).                  |
 
-Both **legacy Bull v4** and **BullMQ v5** are supported through
-`BullAdapter` and `BullMQAdapter` respectively.
+---
+
+## Adapters
+
+There are two kinds of adapters. You pick **one server adapter** (how the dashboard mounts
+into your HTTP layer) and **one queue adapter per queue** (which queue library that queue uses).
+
+### Server adapters
+
+| Adapter        | Import                                                              | Use with                          |
+| -------------- | ------------------------------------------------------------------ | --------------------------------- |
+| `ExpressAdapter` | `@aios-medical/bullmq-dashboard-express`                         | Express 4 / 5 (also used by NestJS) |
+| NestJS module    | `@aios-medical/bullmq-dashboard-nestjs`                          | NestJS 9 / 10 / 11                |
+
+> Using Fastify, Koa, Hono, or another framework? It isn't shipped yet. The API is
+> framework-agnostic and wire-compatible with `@bull-board/api`, so a new server adapter is
+> straightforward to add. Contributions welcome.
+
+### Queue adapters
+
+| Adapter          | Import                                                  | Queue library                          |
+| ---------------- | ------------------------------------------------------- | -------------------------------------- |
+| `BullMQAdapter`  | `@aios-medical/bullmq-dashboard-api/bullMQAdapter`      | **BullMQ v5** (`bullmq`, `@nestjs/bullmq`) |
+| `BullAdapter`    | `@aios-medical/bullmq-dashboard-api/bullAdapter`        | **Legacy Bull v4** (`bull`, `@nestjs/bull`) |
+
+```ts
+import { BullMQAdapter } from '@aios-medical/bullmq-dashboard-api/bullMQAdapter';
+import { BullAdapter } from '@aios-medical/bullmq-dashboard-api/bullAdapter';
+
+// one adapter instance per queue
+new BullMQAdapter(bullmqQueue);
+new BullAdapter(bullQueue);
+```
+
+You can mix both in the same dashboard: wrap each queue in the adapter that matches its library.
 
 ---
 
