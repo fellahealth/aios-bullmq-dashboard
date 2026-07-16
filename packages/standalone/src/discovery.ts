@@ -1,4 +1,5 @@
 import { Queue } from 'bullmq';
+import type { ConnectionOptions } from 'bullmq';
 import type { Redis } from 'ioredis';
 import { BullMQAdapter } from '@aios-medical/bullmq-dashboard-api/bullMQAdapter';
 
@@ -36,7 +37,8 @@ export class QueueDiscovery {
   constructor(
     private readonly client: Redis,
     private readonly config: StandaloneConfig,
-    private readonly registry: QueueRegistryApi
+    private readonly registry: QueueRegistryApi,
+    private readonly queueConnection: ConnectionOptions
   ) {}
 
   private async resolveNames(): Promise<string[]> {
@@ -50,7 +52,10 @@ export class QueueDiscovery {
 
     for (const name of names) {
       if (this.known.has(name)) continue;
-      const queue = new Queue(name, { connection: this.client, prefix: this.config.bullPrefix });
+      const queue = new Queue(name, {
+        connection: this.queueConnection,
+        prefix: this.config.bullPrefix,
+      });
       this.known.set(name, queue);
       this.registry.addQueue(new BullMQAdapter(queue, { readOnlyMode: this.config.readOnly }));
     }

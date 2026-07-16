@@ -2,6 +2,7 @@ import type { Server } from 'http';
 import express from 'express';
 import basicAuth from 'express-basic-auth';
 import IORedis, { type Redis } from 'ioredis';
+import type { ConnectionOptions } from 'bullmq';
 import { createDashboard } from '@aios-medical/bullmq-dashboard-api';
 import { ExpressAdapter } from '@aios-medical/bullmq-dashboard-express';
 
@@ -22,6 +23,13 @@ function createRedis(config: StandaloneConfig): Redis {
   return new IORedis({ ...config.redis, maxRetriesPerRequest: null });
 }
 
+function queueConnection(config: StandaloneConfig): ConnectionOptions {
+  if ('url' in config.redis) {
+    return { url: config.redis.url, maxRetriesPerRequest: null } as ConnectionOptions;
+  }
+  return { ...config.redis, maxRetriesPerRequest: null } as ConnectionOptions;
+}
+
 export async function startServer(config: StandaloneConfig): Promise<StandaloneServer> {
   const redis = createRedis(config);
 
@@ -40,7 +48,7 @@ export async function startServer(config: StandaloneConfig): Promise<StandaloneS
     },
   });
 
-  const discovery = new QueueDiscovery(redis, config, { addQueue, removeQueue });
+  const discovery = new QueueDiscovery(redis, config, { addQueue, removeQueue }, queueConnection(config));
 
   const initialNames = await discovery.reconcile();
   console.log(
