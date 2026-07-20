@@ -35,10 +35,10 @@
     "@aios-medical/bullmq-dashboard-api": "^1.0.0",
     "@aios-medical/bullmq-dashboard-express": "^1.0.0",
     "@nestjs/bull-shared": "^11.0.0",
-    "@nestjs/common": "^11.1.27",
-    "@nestjs/core": "^11.1.27",
+    "@nestjs/common": "^11.1.28",
+    "@nestjs/core": "^11.1.28",
     "@types/node": "^22.10.5",
-    "bullmq": "^5.78.1",
+    "bullmq": "^5.80.9",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "typescript": "^5.7.2"
