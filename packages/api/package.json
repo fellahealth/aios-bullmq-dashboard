@@ -48,7 +48,7 @@
     "@types/redis-info": "^3.0.3",
     "bull": "^4.16.5",
     "bullmq": "^5.78.1",
-    "typescript": "^5.7.2"
+    "typescript": "^7.0.2"
   },
   "peerDependencies": {
     "@aios-medical/bullmq-dashboard-ui": "^1.0.0"
