@@ -34,7 +34,7 @@
   "devDependencies": {
     "@aios-medical/bullmq-dashboard-api": "^1.0.0",
     "@aios-medical/bullmq-dashboard-express": "^1.0.0",
-    "@nestjs/bull-shared": "^11.0.0",
+    "@nestjs/bull-shared": "^11.0.5",
     "@nestjs/common": "^11.1.28",
     "@nestjs/core": "^11.1.28",
     "@types/node": "^22.10.5",
